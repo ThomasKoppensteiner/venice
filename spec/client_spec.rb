@@ -22,14 +22,17 @@ describe Venice::Client do
     context "with a shared secret set" do
       let(:secret) { "shhhhhh" }
 
-      before do
-        client.shared_secret = secret
+      let(:opts) do
+        {
+          return_hash: true,
+          shared_secret: secret
+        }
       end
 
       it "should include the secret in the post" do
         WebMock.stub_request(:post, "https://sandbox.itunes.apple.com/verifyReceipt").to_return(status: 200, body: "{}")
 
-        client.verify! receipt_data, return_hash: true
+        client.verify! receipt_data, opts
         
         WebMock.assert_requested :post, "https://sandbox.itunes.apple.com/verifyReceipt", body: { 'receipt-data' => receipt_data, 'password' => secret }.to_json
       end

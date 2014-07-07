@@ -30,6 +30,7 @@ module Venice
 
     def verify!(data, options = {})
       options = {return_hash: false}.merge(options)
+      self.shared_secret = options.fetch(:shared_secret, nil)
 
       json = json_response_from_verifying_data(data)
       status, receipt_attributes = json['status'].to_i, json['receipt']

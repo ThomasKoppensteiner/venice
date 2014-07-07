@@ -47,7 +47,7 @@ describe Venice::Receipt do
 
     describe "#verify!" do
       before do
-        client = stub
+        client = double
         Venice::Client.stub(:production).and_return(client)
         client.stub(:verify!).and_return(response)
       end
@@ -83,7 +83,7 @@ describe Venice::Receipt do
         end
 
         it "should create a latest expired receipt" do
-          receipt.latest_expired.should_not be_nil
+          receipt["latest_expired_receipt_info"].should_not be_nil
         end
       end
     end
